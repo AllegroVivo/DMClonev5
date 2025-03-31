@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DungeonMaker.Core;
 
 namespace DungeonMaker.Entities;
 
@@ -8,12 +9,14 @@ public class EntityManager
     private Int32 _nextEntityId = 1;
     private readonly Dictionary<Int32, Dictionary<Type, IComponent>> _entities = new();
 
-    public Entity CreateEntity()
+    private Entity CreateEntity()
     {
         Int32 id = _nextEntityId++;
         _entities[id] = new Dictionary<Type, IComponent>();
         return new Entity(id);
     }
+
+    public GameObject CreateGameObject() => new(CreateEntity());
 
     public void AddComponent<T>(Entity entity, T component) where T : IComponent
     {
@@ -28,6 +31,11 @@ public class EntityManager
     public Boolean HasComponent<T>(Entity entity) where T : IComponent
     {
         return _entities[entity.ID].ContainsKey(typeof(T));
+    }
+    
+    public void RemoveComponent<T>(Entity entity) where T : IComponent
+    {
+        _entities[entity.ID].Remove(typeof(T));
     }
     
     public IEnumerable<Entity> GetAllEntitiesWith<T>() where T : IComponent

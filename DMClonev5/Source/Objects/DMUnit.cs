@@ -2,11 +2,8 @@
 
 namespace DungeonMaker.Objects;
 
-public abstract class DMUnit(Int32 id, String name, String description, Int32 rank, DMObjectType type) 
-    : DMObject(id, name, description, rank, type)
+public abstract class DMUnit(Int32 id, String name, Int32 rank, DMObjectType type) 
+    : DMObject(id, name, String.Empty, rank, type)
 {
-    protected override void InitComponents()
-    {
-        
-    }
+    public StatData Stats { get; } = new();
 }
