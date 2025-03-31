@@ -10,10 +10,10 @@ public class MovementSystem : SystemBase
     {
         Single dt = (Single)GameContext.GameTime.ElapsedGameTime.TotalSeconds;
 
-        foreach (Entity entity in GameContext.EntityManager.GetAllEntitiesWith<Transform, Velocity>())
+        foreach (Entity entity in GameContext.EntityManager.GetAllEntitiesWith<TransformComponent, VelocityComponent>())
         {
-            Transform transform = entity.GetComponent<Transform>();
-            Velocity velocity = entity.GetComponent<Velocity>();
+            TransformComponent transform = entity.GetComponent<TransformComponent>();
+            VelocityComponent velocity = entity.GetComponent<VelocityComponent>();
             
             transform.Position += velocity.Speed * dt;
         }

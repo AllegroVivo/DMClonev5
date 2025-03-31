@@ -1,0 +1,20 @@
+﻿[
+    {
+        "Id": 1,
+        "Name": "Arena",
+        "Description": "The deployed monsters' ATK is increased by 10 (+3 per Lv).",
+        "Rank": 1,
+        "Effects": [
+            {
+                "Trigger": "OnMonsterDeploy",
+                "Action": "BoostStat",
+                "Target": "TriggerUnit",
+                "Parameters": {
+                    "Stat": "Attack",
+                    "Value": 10,
+                    "PerLevel": 3
+                }
+            }
+        ]
+    }
+]

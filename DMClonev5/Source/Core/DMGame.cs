@@ -1,6 +1,10 @@
 ﻿using System;
+using DungeonMaker.Core;
+using DungeonMaker.Data;
+using DungeonMaker.Dungeon;
 using DungeonMaker.Entities;
 using DungeonMaker.Input;
+using DungeonMaker.States;
 using DungeonMaker.Systems;
 using DungeonMaker.Utilities;
 using Microsoft.Xna.Framework;
@@ -45,9 +49,13 @@ public class DMGame : Game
         InitializeGameContext();
         InitializeSystems();
 
+        ObjectSpawner.InitSpawners();
+        
         _graphics.PreferredBackBufferWidth = GameContext.ScreenWidth;
         _graphics.PreferredBackBufferHeight = GameContext.ScreenHeight;
         _graphics.ApplyChanges();
+        
+        GameContext.StateMachine.ChangeState(new DungeonGameplayState());
         
         base.Initialize();
     }
@@ -56,6 +64,10 @@ public class DMGame : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         GameContext.MainSpriteBatch = _spriteBatch;
+        GameContext.SecondarySpriteBatch = new SpriteBatch(GraphicsDevice);
+        
+        TextureManager.LoadAllTextures();
+        JsonParser.LoadAll();
 
         _initialized = true;
     }
@@ -71,6 +83,8 @@ public class DMGame : Game
         if (GameContext.InputManager.IsKeyPressed(Keys.Escape))
             Exit();
 
+        GameContext.StateMachine.Update();
+        
         base.Update(gameTime);
     }
 
@@ -81,7 +95,7 @@ public class DMGame : Game
         
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        // TODO: Add your drawing code here
+        GameContext.StateMachine.Draw();
 
         base.Draw(gameTime);
     }
@@ -93,7 +107,10 @@ public class DMGame : Game
 
         GameContext.EntityManager = new EntityManager();
         GameContext.InputManager = new InputManager();
+        GameContext.StateMachine = new StateMachine();
         GameContext.SystemManager = new SystemManager();
+        GameContext.Dungeon = new DungeonGrid();
+        GameContext.Random = new Random();
     }
     
     private static void InitializeSystems()

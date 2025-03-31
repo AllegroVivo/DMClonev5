@@ -7,11 +7,5 @@ public sealed class DMRoom(Int32 id, String name, String description, Int32 rank
     : DMObject(id, name, description, rank, DMObjectType.Room)
 {
     public DMRoomType RoomType { get; } = type;
-    public Int32 MaxDeploys { get; private set; }
-    public List<DMObject> DeployedMonsters { get; } = [];
-    
-    protected override void InitComponents()
-    {
-        
-    }
+    public List<EffectData> Effects { get; } = [];
 }

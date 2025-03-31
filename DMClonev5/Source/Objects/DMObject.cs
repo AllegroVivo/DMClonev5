@@ -3,24 +3,11 @@ using DungeonMaker.Entities;
 
 namespace DungeonMaker.Objects;
 
-public abstract class DMObject
+public abstract class DMObject(Int32 id, String name, String description, Int32 rank, DMObjectType type)
 {
-    public Int32 Id { get; }
-    public String Name { get; }
-    public String Description { get; }
-    public Int32 Rank { get; }
-    public DMObjectType Type { get; }
-    
-    protected DMObject(Int32 id, String name, String description, Int32 rank, DMObjectType type)
-    {
-        Id = id;
-        Name = name;
-        Description = description;
-        Rank = rank;
-        Type = type;
-        
-        InitComponents();
-    }
-
-    protected abstract void InitComponents();
+    public Int32 Id { get; } = id;
+    public String Name { get; } = name;
+    public String Description { get; } = description;
+    public Int32 Rank { get; } = rank;
+    public DMObjectType Type { get; } = type;
 }
