@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using DungeonMaker.Core;
+using DungeonMaker.Events;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
@@ -22,9 +24,9 @@ public class DungeonInputSystem
 
             if (bounds.Contains(mousePosition))
             {
-                if (mouse.LeftButton == ButtonState.Pressed && tile.DeployedRoom == null)
+                if (GameContext.InputManager.IsLeftClick() && tile.DeployedRoom == null)
                     DeployRoom(tile);
-                else if (mouse.RightButton == ButtonState.Pressed && tile.DeployedRoom != null)
+                else if (GameContext.InputManager.IsRightClick() && tile.DeployedRoom != null)
                     DeployUnit(tile);
             }
         }
@@ -41,6 +43,9 @@ public class DungeonInputSystem
     {
         var go = ObjectSpawner.Spawn(DMObjectType.Monster, "Bat");
         tile.DeployedUnits.Add(go.Entity);
+        
+        Debug.Assert(tile.DeployedRoom != null, "Tile has no deployed room");
+        EventBus.Publish(new MonsterDeployedEvent(go.Entity, tile.DeployedRoom));
     }
     
     private Vector2 GetTileScreenPosition(DungeonTile tile)

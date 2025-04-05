@@ -40,8 +40,8 @@ public static class ObjectSpawner
             go.AddComponent(new DMObjectReference(room));
             go.AddComponent(new BattleRoomComponent { Effects = room.Effects });
 
-            var texture = TextureManager.GetAnimation(DMObjectType.Room, room.Name, DMAnimationType.Static);
-            go.AddComponent(new SpriteComponent { Texture = texture[0] });
+            var frames = TextureManager.GetAnimation(DMObjectType.Room, room.Name, DMAnimationType.Static);
+            go.AddComponent(new SpriteComponent { Texture = frames[0].Texture });
             
             return go;
         });
@@ -56,8 +56,9 @@ public static class ObjectSpawner
             go.AddComponent(new StatsComponent(monster.Stats.Life, monster.Stats.Attack, monster.Stats.Defense));
             go.AddComponent(new LevelComponent());
             
-            var texture = TextureManager.GetAnimation(DMObjectType.Monster, monster.Name, DMAnimationType.Idle);
-            go.AddComponent(new SpriteComponent { Texture = texture[0] });
+            var frames = TextureManager.GetAnimation(DMObjectType.Monster, monster.Name, DMAnimationType.Idle);
+            go.AddComponent(new SpriteComponent { Texture = frames[0].Texture });
+            go.AddComponent(new AnimationComponent { Frames = frames });
 
             return go;
         });

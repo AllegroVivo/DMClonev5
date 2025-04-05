@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 namespace DungeonMaker.Core;
 
-public class EventBus
+public static class EventBus
 {
     public delegate void EventHandler<in T>(T e) where T : IGameEvent;
-    private readonly Dictionary<Type, List<Delegate>> _subscribers = new();
+    private static readonly Dictionary<Type, List<Delegate>> _subscribers = new();
     
-    public void Subscribe<T>(EventHandler<T> handler) where T : IGameEvent
+    public static void Subscribe<T>(EventHandler<T> handler) where T : IGameEvent
     {
         Type type = typeof(T);
         if (!_subscribers.TryGetValue(type, out var delegates)) 
@@ -17,10 +17,11 @@ public class EventBus
             _subscribers[type] = delegates;
         }
 
-        delegates.Add(handler);
+        if (!delegates.Contains(handler))
+            delegates.Add(handler);
     }
     
-    public void Unsubscribe<T>(EventHandler<T> handler) where T : IGameEvent 
+    public static void Unsubscribe<T>(EventHandler<T> handler) where T : IGameEvent 
     {
         Type type = typeof(T);
         if (_subscribers.TryGetValue(type, out var list))
@@ -31,13 +32,16 @@ public class EventBus
         }
     }
     
-    public void Publish<T>(T eventData) where T : IGameEvent 
+    public static void Publish<T>(T eventData) where T : IGameEvent 
     {
         Type type = typeof(T);
         if (_subscribers.TryGetValue(type, out var list))
         {
-            foreach (Delegate handler in list)
+            var handlers = list.ToArray(); // Copy to avoid modification during iteration
+            foreach (var handler in handlers)
                 ((EventHandler<T>)handler)?.Invoke(eventData);
         }
     }
+    
+    public static void Clear() => _subscribers.Clear();
 }

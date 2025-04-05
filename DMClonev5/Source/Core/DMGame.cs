@@ -84,6 +84,7 @@ public class DMGame : Game
             Exit();
 
         GameContext.StateMachine.Update();
+        GameContext.SystemManager.Update();
         
         base.Update(gameTime);
     }
@@ -116,5 +117,7 @@ public class DMGame : Game
     private static void InitializeSystems()
     {
         GameContext.SystemManager.AddSystem(new MovementSystem());
+        GameContext.SystemManager.AddSystem(new AnimationSystem());
+        GameContext.SystemManager.AddSystem(new RoomEffectSystem());
     }
 }

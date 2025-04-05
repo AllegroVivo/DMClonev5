@@ -44,30 +44,16 @@ public class DMStatComponent(Single baseValue, DMStatType type)
     protected Single _scalar { get; private set; } = 1.0f;
     protected List<DMStatModification> _modifications { get; } = [];
     
-    public Single Value
-    {
-        get
-        {
-            Single flat = 0f;
-            Single scalar = 1.0f;
+    public Single Current => Calculate();
 
-            foreach (var mod in _modifications)
-            {
-                flat += mod.FlatValue;
-                scalar += mod.PercentValue;
-            }
-
-            return (BaseValue * scalar) + flat;
-        }
-    }
     protected Single Calculate()
     {
         Reset();
         
-        foreach (DMStatModification modification in _modifications)
+        foreach (DMStatModification mod in _modifications)
         {
-            _flatAdditional += modification.FlatValue;
-            _scalar += modification.PercentValue;
+            _flatAdditional += mod.FlatValue;
+            _scalar += mod.PercentValue;
         }
         
         return (BaseValue * _scalar) + _flatAdditional;

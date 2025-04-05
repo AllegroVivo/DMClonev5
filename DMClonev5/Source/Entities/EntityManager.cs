@@ -55,4 +55,28 @@ public class EntityManager
                 yield return new Entity(entityId);
         }
     }
+    
+    public IEnumerable<T> GetAllComponentsOfType<T>() where T : class, IComponent
+    {
+        foreach (var componentDict in _entities.Values)
+        {
+            if (componentDict.TryGetValue(typeof(T), out var component))
+                yield return (T)component;
+        }
+    }
+    
+    public Boolean TryGetComponent<T>(Entity entity, out T component) where T : class, IComponent
+    {
+        component = null!;
+
+        if (_entities.TryGetValue(entity.ID, out var componentMap) &&
+            componentMap.TryGetValue(typeof(T), out var rawComponent) &&
+            rawComponent is T typedComponent)
+        {
+            component = typedComponent;
+            return true;
+        }
+
+        return false;
+    }
 }

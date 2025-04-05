@@ -20,40 +20,39 @@ using DungeonMaker.Components;
  
      public void Redraw()
      {
-         GraphicsDevice.SetRenderTarget(_renderTarget);
-         GraphicsDevice.Clear(Color.Transparent);
- 
          SpriteBatch sb = GameContext.MainSpriteBatch;
          sb.Begin();
-         
+
+         // Draw background
          sb.Draw(_bgTexture, new Rectangle(-30, -30, GraphicsDevice.Viewport.Width + 100, GraphicsDevice.Viewport.Height + 100), Color.White);
-         
+
          for (Int32 x = 0; x < DungeonGrid.MaxWidth; x++)
          {
              for (Int32 y = 0; y < DungeonGrid.MaxHeight; y++)
              {
                  var tile = Dungeon.Tiles[x, y];
-                 tile.Draw();
- 
-                 Single scale = 1f;
+
                  Vector2 position = new(
                      GameContext.DungeonPaddingX + GetColumnOffset(x),
                      GameContext.DungeonPaddingY + y * (GameContext.TileSize + GameContext.TilePadding)
                  );
-                 
+
                  if (tile.Type == DMTileType.Boss)
                  {
+                     // Draw boss room directly
+                     BossTexture ??= TextureManager.GetAnimation(DMObjectType.Room, "Boss", DMAnimationType.Static)[0].Texture;
                      position = new Vector2(
                          20,
                          GameContext.DungeonPaddingY + y * (GameContext.TileSize + GameContext.TilePadding) - (GameContext.TileSize * 0.125f) - 50
                      );
- 
-                     BossTexture ??= TextureManager.GetAnimation(DMObjectType.Room, "Boss", DMAnimationType.Static)[0];
+
                      sb.Draw(BossTexture, position, null, Color.White, 0f, Vector2.Zero, 1.25f, SpriteEffects.None, 0f);
-                     continue;
                  }
-                 
-                 sb.Draw(tile.RenderTarget, position, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+                 else
+                 {
+                     // Draw tile + units
+                     tile.Draw(sb, position);
+                 }
              }
          }
          

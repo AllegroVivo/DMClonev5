@@ -47,7 +47,7 @@ public static class Logger
         if (!MinimumLevel.HasFlag(level)) 
             return;
 
-        String logMessage = $"[{DateTime.Now:HH:mm:ss}] [{level}] {Path.GetFileName(filePath)}:{lineNumber} ({caller}) - {message}";
+        String logMessage = $"[{DateTime.Now:HH:mm:ss}] [{level}] {Path.GetFileNameWithoutExtension(filePath)}:{lineNumber} ({caller}) - {message}";
         ConsoleColor originalColor = Console.ForegroundColor;
 
         // Set color based on log level

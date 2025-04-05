@@ -65,21 +65,24 @@ public static class JsonParser
             return;
         }
 
-        foreach (String file in Directory.GetFiles(path, "*.json"))
+        foreach (String rankDir in Directory.GetDirectories(path))
         {
-            try
+            foreach (String file in Directory.GetFiles(rankDir, "*.json"))
             {
-                String json = File.ReadAllText(file);
-                var monsters = JsonConvert.DeserializeObject<List<DMMonster>>(json, settings) ?? [];
-                foreach (DMMonster monster in monsters)
+                try
                 {
-                    DMObjectRegistry.Register(monster);
-                    Logger.Debug($"[Loaded] Monster '{monster.Name}' from {Path.GetFileName(file)}");
+                    String json = File.ReadAllText(file);
+                    var monsters = JsonConvert.DeserializeObject<List<DMMonster>>(json, settings) ?? [];
+                    foreach (DMMonster monster in monsters)
+                    {
+                        DMObjectRegistry.Register(monster);
+                        Logger.Debug($"[Loaded] Monster '{monster.Name}' from {Path.GetFileName(file)}");
+                    }
                 }
-            }
-            catch (Exception ex)
-            {
-                Logger.Error($"Failed to load monster file {file}: {ex.Message}");
+                catch (Exception ex)
+                {
+                    Logger.Error($"Failed to load monster file {file}: {ex.Message}");
+                }
             }
         }
     }
