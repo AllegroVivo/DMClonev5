@@ -26,6 +26,7 @@
       <None Remove="Content\Textures\Objects\Monsters\Rank1\Bat\Idle\Mon_122_idle05.png" />
     </ItemGroup>
     <ItemGroup>
+      <Folder Include="Content\Textures\Objects\Heroes\Rank1\" />
       <Folder Include="Content\Textures\Objects\Monsters\Rank1\Bat\Idle\" />
     </ItemGroup>
     <Target Name="RestoreDotnetTools" BeforeTargets="Restore">

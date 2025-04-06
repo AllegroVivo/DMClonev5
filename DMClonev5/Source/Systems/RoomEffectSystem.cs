@@ -54,7 +54,7 @@ public class RoomEffectSystem : SystemBase
 
     private void ApplyStatBoost(EffectData effect, Entity targetEntity, Entity roomEntity)
     {
-        if (!EntityManager.TryGetComponent<StatsComponent>(targetEntity, out var stats))
+        if (!EntityManager.TryGetComponent<MonsterStatsComponent>(targetEntity, out var stats))
             return;
 
         if (!effect.Parameters.TryGetValue("Stat", out var statName) ||

@@ -16,6 +16,7 @@ public static class JsonParser
     {
         LoadAllRooms();
         LoadAllMonsters();
+        LoadAllHeroes();
     }
     
     private static void LoadAllRooms()
@@ -82,6 +83,42 @@ public static class JsonParser
                 catch (Exception ex)
                 {
                     Logger.Error($"Failed to load monster file {file}: {ex.Message}");
+                }
+            }
+        }
+    }
+    
+    private static void LoadAllHeroes()
+    {
+        String path = Path.Combine(DataPath, "Heroes");
+        JsonSerializerSettings settings = new()
+        {
+            Converters = { new StringEnumConverter() }
+        };
+        
+        if (!Directory.Exists(path))
+        {
+            Logger.Warning($"Room data path not found: {path}");
+            return;
+        }
+
+        foreach (String rankDir in Directory.GetDirectories(path))
+        {
+            foreach (String file in Directory.GetFiles(rankDir, "*.json"))
+            {
+                try
+                {
+                    String json = File.ReadAllText(file);
+                    var monsters = JsonConvert.DeserializeObject<List<DMHero>>(json, settings) ?? [];
+                    foreach (DMHero hero in monsters)
+                    {
+                        DMObjectRegistry.Register(hero);
+                        Logger.Debug($"[Loaded] Hero '{hero.Name}' from {Path.GetFileName(file)}");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Logger.Error($"Failed to load hero file {file}: {ex.Message}");
                 }
             }
         }

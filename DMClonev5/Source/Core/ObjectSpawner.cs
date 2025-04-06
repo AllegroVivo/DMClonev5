@@ -53,10 +53,27 @@ public static class ObjectSpawner
             GameObject go = em.CreateGameObject();
             
             go.AddComponent(new DMObjectReference(monster));
-            go.AddComponent(new StatsComponent(monster.Stats.Life, monster.Stats.Attack, monster.Stats.Defense));
+            go.AddComponent(new MonsterStatsComponent(monster.Stats.Life, monster.Stats.Attack, monster.Stats.Defense));
             go.AddComponent(new LevelComponent());
             
             var frames = TextureManager.GetAnimation(DMObjectType.Monster, monster.Name, DMAnimationType.Idle);
+            go.AddComponent(new SpriteComponent { Texture = frames[0].Texture });
+            go.AddComponent(new AnimationComponent { Frames = frames });
+
+            return go;
+        });
+        Register(DMObjectType.Hero, obj =>
+        {
+            if (obj is not DMHero hero)
+                throw new Exception("Invalid DMObject type for Monster spawner!");
+            
+            GameObject go = em.CreateGameObject();
+            
+            go.AddComponent(new DMObjectReference(hero));
+            go.AddComponent(new MonsterStatsComponent(hero.Stats.Life, hero.Stats.Attack, hero.Stats.Defense));
+            go.AddComponent(new LevelComponent());
+            
+            var frames = TextureManager.GetAnimation(DMObjectType.Monster, hero.Name, DMAnimationType.Idle);
             go.AddComponent(new SpriteComponent { Texture = frames[0].Texture });
             go.AddComponent(new AnimationComponent { Frames = frames });
 

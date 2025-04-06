@@ -27,9 +27,15 @@ public class DungeonGrid
     
     public Int32 CurrentWidth { get; private set; }
     
+    public DungeonTile[] EntranceTiles => Tiles
+        .Cast<DungeonTile>()
+        .Where(tile => tile.Type == DMTileType.Entrance)
+        .ToArray();
+    
     public DungeonGrid()
     {
         InitializeGrid();
+        Console.WriteLine(EntranceTiles.Length);
     }
 
     public void InitializeGrid()
@@ -71,6 +77,11 @@ public class DungeonGrid
         tile.DeployedRoom = room.Entity;
         
         Logger.Info($"Deployed room '{roomName}' at {position}");
+    }
+
+    public void SpawnHero(String heroName)
+    {
+        GameObject go = ObjectSpawner.Spawn(DMObjectType.Hero, heroName);
     }
     
     public void UpdateEntrances()

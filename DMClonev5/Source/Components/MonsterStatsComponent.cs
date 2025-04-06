@@ -6,7 +6,7 @@ using DungeonMaker.Objects;
 
 namespace DungeonMaker.Components;
 
-public sealed class StatsComponent : IComponent
+public sealed class MonsterStatsComponent : IComponent
 {
     private readonly Dictionary<DMStatType, DMStatComponent> _stats = new();
     
@@ -16,7 +16,7 @@ public sealed class StatsComponent : IComponent
 
     public IEnumerable<DMStatComponent> All => _stats.Values;
 
-    public StatsComponent(Single life, Single atk, Single def)
+    public MonsterStatsComponent(Single life, Single atk, Single def)
     {
         AddStat(DMStatType.LIFE, life);
         AddStat(DMStatType.ATK, atk);
@@ -39,7 +39,7 @@ public class DMStatComponent(Single baseValue, DMStatType type)
 {
     public DMStatType StatType { get; } = type;
 
-    public Single BaseValue { get; private set; } = baseValue;
+    public Single BaseValue { get; protected set; } = baseValue;
     protected Single _flatAdditional { get; private set; }
     protected Single _scalar { get; private set; } = 1.0f;
     protected List<DMStatModification> _modifications { get; } = [];

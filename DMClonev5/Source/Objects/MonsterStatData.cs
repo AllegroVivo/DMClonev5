@@ -2,7 +2,7 @@
 
 namespace DungeonMaker.Objects;
 
-public class StatData
+public class MonsterStatData
 {
     public Int32 Life { get; set; }
     public Int32 Attack { get; set; }
