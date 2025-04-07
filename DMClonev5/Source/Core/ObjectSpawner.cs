@@ -70,7 +70,7 @@ public static class ObjectSpawner
             GameObject go = em.CreateGameObject();
             
             go.AddComponent(new DMObjectReference(hero));
-            go.AddComponent(new MonsterStatsComponent(hero.Stats.Life, hero.Stats.Attack, hero.Stats.Defense));
+            go.AddComponent(new HeroStatsComponent(hero.Stats));
             go.AddComponent(new LevelComponent());
             
             var frames = TextureManager.GetAnimation(DMObjectType.Monster, hero.Name, DMAnimationType.Idle);

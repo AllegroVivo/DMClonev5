@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DungeonMaker.Objects;
 
 namespace DungeonMaker.Components;
 
@@ -10,6 +11,15 @@ public sealed class HeroStatsComponent : IComponent
     public HeroLifeComponent Life => (HeroLifeComponent)_stats[DMStatType.LIFE];
     public HeroStatComponent Attack => _stats[DMStatType.ATK];
     public HeroStatComponent Defense => _stats[DMStatType.DEF];
+    
+    public HeroStatsComponent(HeroStatData raw)
+    {
+        _stats[DMStatType.LIFE] = new HeroLifeComponent(raw.LifeBase, raw.LifeGrow);
+        _stats[DMStatType.ATK] = new HeroStatComponent(raw.AttackBase, raw.AttackGrow, DMStatType.ATK);
+        _stats[DMStatType.DEF] = new HeroStatComponent(raw.DefenseBase, raw.DefenseGrow, DMStatType.DEF);
+    }
+    
+    public HeroStatComponent this[DMStatType type] => _stats[type];
 }
 
 public class HeroStatComponent(Single baseValue, Single growth, DMStatType type) : DMStatComponent(baseValue, type)
@@ -22,7 +32,7 @@ public class HeroStatComponent(Single baseValue, Single growth, DMStatType type)
 
 public class HeroLifeComponent : HeroStatComponent
 {
-    public Single Current { get; private set; }
+    public new Single Current { get; private set; }
     
     public HeroLifeComponent(Single baseValue, Single growth)
         : base(baseValue, growth, DMStatType.LIFE)

@@ -19,15 +19,7 @@
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     </ItemGroup>
     <ItemGroup>
-      <None Remove="Content\Textures\Objects\Monsters\Rank1\Bat\Idle\Mon_122_idle06.png" />
-      <None Remove="Content\Textures\Objects\Monsters\Rank1\Bat\Idle\Mon_122_idle03.png" />
-      <None Remove="Content\Textures\Objects\Monsters\Rank1\Bat\Idle\Mon_122_idle02.png" />
-      <None Remove="Content\Textures\Objects\Monsters\Rank1\Bat\Idle\Mon_122_idle04.png" />
-      <None Remove="Content\Textures\Objects\Monsters\Rank1\Bat\Idle\Mon_122_idle05.png" />
-    </ItemGroup>
-    <ItemGroup>
       <Folder Include="Content\Textures\Objects\Heroes\Rank1\" />
-      <Folder Include="Content\Textures\Objects\Monsters\Rank1\Bat\Idle\" />
     </ItemGroup>
     <Target Name="RestoreDotnetTools" BeforeTargets="Restore">
         <Message Text="Restoring dotnet tools" Importance="High"/>

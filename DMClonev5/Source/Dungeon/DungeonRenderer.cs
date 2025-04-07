@@ -23,7 +23,6 @@ using DungeonMaker.Components;
          SpriteBatch sb = GameContext.MainSpriteBatch;
          sb.Begin();
 
-         // Draw background
          sb.Draw(_bgTexture, new Rectangle(-30, -30, GraphicsDevice.Viewport.Width + 100, GraphicsDevice.Viewport.Height + 100), Color.White);
 
          for (Int32 x = 0; x < DungeonGrid.MaxWidth; x++)
@@ -39,7 +38,6 @@ using DungeonMaker.Components;
 
                  if (tile.Type == DMTileType.Boss)
                  {
-                     // Draw boss room directly
                      BossTexture ??= TextureManager.GetAnimation(DMObjectType.Room, "Boss", DMAnimationType.Static)[0].Texture;
                      position = new Vector2(
                          20,
@@ -50,7 +48,6 @@ using DungeonMaker.Components;
                  }
                  else
                  {
-                     // Draw tile + units
                      tile.Draw(sb, position);
                  }
              }
