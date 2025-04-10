@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DungeonMaker.Components;
 using DungeonMaker.Core;
 using DungeonMaker.Entities;
 using DungeonMaker.Utilities;
@@ -22,6 +23,7 @@ public class DungeonGrid
     public Int32 ActiveHeight => ActiveBottom - ActiveTop + 1;
     
     public DungeonTile[,] Tiles { get; } = new DungeonTile[MaxWidth, MaxHeight];
+    public List<Entity> Heroes { get; } = [];
     
     private static EntityManager EntityManager => GameContext.EntityManager;
     
@@ -81,7 +83,16 @@ public class DungeonGrid
 
     public void SpawnHero(String heroName)
     {
+        Int32 rand = GameContext.Random.Next(0, EntranceTiles.Length);
+        DungeonTile entrance = EntranceTiles[rand];
+        
         GameObject go = ObjectSpawner.Spawn(DMObjectType.Hero, heroName);
+        Heroes.Add(go.Entity);
+
+        var pos = EntityManager.GetComponent<PositionComponent>(go.Entity);
+        pos.SetGridPosition(entrance.GridPosition);
+        
+        Logger.Debug($"Spawned hero '{heroName}' at {entrance.GridPosition}");
     }
     
     public void UpdateEntrances()

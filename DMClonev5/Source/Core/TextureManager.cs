@@ -22,6 +22,7 @@ public static class TextureManager
         LoadSingleTextures();
         LoadTextures(DMObjectType.Room, "Rooms");
         LoadTextures(DMObjectType.Monster, "Monsters");
+        LoadTextures(DMObjectType.Hero, "Heroes");
     }
 
     #region Single Textures
@@ -78,7 +79,7 @@ public static class TextureManager
 
         var typeDict = new Dictionary<String, Dictionary<DMAnimationType, SpriteFrame[]>>();
 
-        var objectFolders = type == DMObjectType.Monster
+        var objectFolders = type is DMObjectType.Monster or DMObjectType.Hero
             ? Directory.GetDirectories(basePath).SelectMany(Directory.GetDirectories)
             : Directory.GetDirectories(basePath);
 

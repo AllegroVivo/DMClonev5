@@ -73,9 +73,11 @@ public static class ObjectSpawner
             go.AddComponent(new HeroStatsComponent(hero.Stats));
             go.AddComponent(new LevelComponent());
             
-            var frames = TextureManager.GetAnimation(DMObjectType.Monster, hero.Name, DMAnimationType.Idle);
+            var frames = TextureManager.GetAnimation(DMObjectType.Hero, hero.Name, DMAnimationType.Idle);
             go.AddComponent(new SpriteComponent { Texture = frames[0].Texture });
             go.AddComponent(new AnimationComponent { Frames = frames });
+            
+            go.AddComponent(new PositionComponent());
 
             return go;
         });

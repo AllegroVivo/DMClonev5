@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DungeonMaker.Components;
  using DungeonMaker.Core;
+ using DungeonMaker.Entities;
  using Microsoft.Xna.Framework;
  using Microsoft.Xna.Framework.Graphics;
  
@@ -100,6 +101,32 @@ using DungeonMaker.Components;
              }
 
              DrawConnectionLine(sb, posA, posB, 12f, flip);
+         }
+         
+         foreach (Entity hero in Dungeon.Heroes)
+         {
+             if (!GameContext.EntityManager.TryGetComponent(hero, out PositionComponent position) ||
+                 !GameContext.EntityManager.TryGetComponent(hero, out SpriteComponent sprite))
+                 continue;
+
+             Texture2D texture = sprite.Texture;
+
+             if (GameContext.EntityManager.TryGetComponent(hero, out AnimationComponent animation))
+                 texture = animation.CurrentTexture;
+
+             Vector2 pos = position.WorldPosition;
+
+             sb.Draw(
+                 texture,
+                 pos,
+                 null,
+                 sprite.Color,
+                 0f,
+                 Vector2.Zero,
+                 sprite.Scale,
+                 SpriteEffects.None,
+                 0f
+             );
          }
  
          sb.End();

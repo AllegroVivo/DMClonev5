@@ -10,5 +10,7 @@ public enum DMAnimationType
     Effect,
     Icon,
     Idle,
-    Run
+    Run,
+    Capture,
+    Prisoner
 }

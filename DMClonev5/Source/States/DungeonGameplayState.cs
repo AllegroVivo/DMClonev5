@@ -48,6 +48,10 @@ public class DungeonGameplayState : IGameState
         {
             GameContext.Dungeon.ExpandWidth();
         }
+        else if (GameContext.InputManager.IsKeyPressed(Keys.Space))
+        {
+            GameContext.Dungeon.SpawnHero("Farmer");
+        }
         
         InputSystem.Update();
     }
